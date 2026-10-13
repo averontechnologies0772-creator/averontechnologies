@@ -27,7 +27,7 @@ export default function Logo({
     >
       {/* Exact Averon Technologies Logo Artwork provided */}
       <div className={`relative ${heightClass} flex-shrink-0 flex items-center`}>
-        <div className="relative h-11 w-11 rounded-full overflow-hidden shadow-xs border border-[#E1E6EA] bg-white group-hover:scale-105 transition-transform duration-200">
+        <div className={`relative h-11 w-11 rounded-full overflow-hidden shadow-xs border ${inverted ? "border-white/20" : "border-[#E1E6EA]"} bg-white group-hover:scale-105 transition-transform duration-200`}>
           <Image
             src="/images/averon-logo.png"
             alt="Averon Technologies Logo"

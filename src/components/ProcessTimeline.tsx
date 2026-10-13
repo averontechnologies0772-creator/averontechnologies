@@ -1,47 +1,87 @@
-import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import { WORK_PROCESS_STEPS } from "@/lib/constants";
 import { FileSearch, Users, MessageSquareCheck, ShieldCheck } from "lucide-react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const STEP_ICONS = [FileSearch, Users, MessageSquareCheck, ShieldCheck];
 
 export default function ProcessTimeline() {
-  return (
-    <div className="relative">
-      {/* Desktop Horizontal Line */}
-      <div className="hidden lg:block absolute top-7 left-12 right-12 h-0.5 bg-[#E1E6EA] z-0" />
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
 
-      {/* Grid: Responsive 1 col on mobile, 2 on tablet, 4 on desktop */}
+  useGSAP(
+    () => {
+      if (!lineRef.current) return;
+
+      gsap.fromTo(
+        lineRef.current,
+        { scaleX: 0, transformOrigin: "left center" },
+        {
+          scaleX: 1,
+          duration: 1.5,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top 75%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    },
+    { scope: containerRef }
+  );
+
+  return (
+    <div ref={containerRef} className="relative">
+      {/* Desktop Horizontal Animated Connector Line */}
+      <div className="hidden lg:block absolute top-8 left-16 right-16 h-[2px] bg-mist z-0">
+        <div
+          ref={lineRef}
+          className="h-full bg-steel origin-left"
+          style={{ width: "100%" }}
+        />
+      </div>
+
+      {/* Grid: 1 col on mobile, 2 on tablet, 4 on desktop */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
         {WORK_PROCESS_STEPS.map((item, idx) => {
           const Icon = STEP_ICONS[idx] || FileSearch;
           return (
             <div
               key={item.step}
-              className="group bg-white rounded-xl p-6 border border-[#E1E6EA] shadow-xs hover:border-[#356C96] hover:shadow-md transition-all duration-200 flex flex-col"
+              className="bg-white rounded-xl p-7 border border-mist shadow-xs hover:border-steel transition-colors duration-200 flex flex-col justify-between"
             >
-              {/* Step indicator with Icon */}
-              <div className="flex items-center justify-between mb-5">
-                <div className="h-14 w-14 rounded-xl bg-[#EDF2F5] text-[#0B1B2B] flex items-center justify-center font-bold text-lg border border-[#E1E6EA] group-hover:bg-[#0B1B2B] group-hover:text-white transition-colors">
-                  {item.step}
+              <div>
+                {/* Step indicator with Icon */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="h-12 w-12 rounded-xl bg-midnight text-white flex items-center justify-center font-bold text-base shadow-sm">
+                    {item.step}
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-parchment text-steel border border-mist">
+                    <Icon className="h-5 w-5" />
+                  </div>
                 </div>
-                <div className="p-2 rounded-lg bg-[#F6F7F8] text-[#54758F] group-hover:text-[#356C96] transition-colors">
-                  <Icon className="h-5 w-5" />
-                </div>
+
+                {/* Title */}
+                <h3 className="text-lg font-bold text-midnight mb-2.5">
+                  {item.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm text-slate leading-relaxed">
+                  {item.description}
+                </p>
               </div>
 
-              {/* Title */}
-              <h3 className="text-base font-semibold text-[#172331] group-hover:text-[#0B1B2B] mb-2.5">
-                {item.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-xs sm:text-sm text-[#65717D] leading-relaxed flex-grow">
-                {item.description}
-              </p>
-
-              {/* Subtle bottom tag */}
-              <div className="mt-5 pt-3 border-t border-[#EDF2F5] text-[11px] font-mono text-[#54758F] uppercase">
-                Stage {item.step} of 04
+              {/* Stage indicator */}
+              <div className="mt-6 pt-4 border-t border-mist/80 text-xs font-medium text-steel">
+                Phase {item.step} of 04
               </div>
             </div>
           );

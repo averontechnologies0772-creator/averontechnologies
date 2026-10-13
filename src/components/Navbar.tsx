@@ -56,15 +56,15 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 backdrop-blur-md ${
         isScrolled
-          ? "bg-white/85 border-b border-[#E1E6EA]/90 shadow-[0_4px_20px_rgba(11,27,43,0.05)]"
-          : "bg-white/90 border-b border-[#E1E6EA]"
+          ? "bg-midnight/95 border-b border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.35)]"
+          : "bg-midnight/90 border-b border-white/10"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Logo />
+            <Logo inverted={true} />
           </div>
 
           {/* Desktop Navigation Links */}
@@ -73,8 +73,8 @@ export default function Navbar() {
               href="/about"
               className={`px-3.5 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
                 pathname === "/about"
-                  ? "text-[#0B1B2B] bg-[#EDF2F5] font-semibold shadow-2xs"
-                  : "text-[#172331] hover:text-[#0B1B2B] hover:bg-[#F6F7F8]/80"
+                  ? "text-white bg-white/15 font-semibold"
+                  : "text-white/80 hover:text-white hover:bg-white/10"
               }`}
             >
               About Us
@@ -94,13 +94,13 @@ export default function Navbar() {
                 aria-haspopup="true"
                 className={`inline-flex items-center px-3.5 py-2 text-sm font-medium transition-all duration-200 rounded-md group cursor-pointer ${
                   isServicesActive
-                    ? "text-[#0B1B2B] bg-[#EDF2F5] font-semibold shadow-2xs"
-                    : "text-[#172331] hover:text-[#0B1B2B] hover:bg-[#F6F7F8]/80"
+                    ? "text-white bg-white/15 font-semibold"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
                 }`}
               >
                 <span>Services</span>
                 <ChevronDown
-                  className={`ml-1.5 h-4 w-4 text-[#54758F] transition-transform duration-300 ${
+                  className={`ml-1.5 h-4 w-4 text-steel transition-transform duration-300 ${
                     servicesDropdownOpen ? "rotate-180" : ""
                   }`}
                 />
@@ -109,13 +109,13 @@ export default function Navbar() {
               {/* Glassmorphic Dropdown Menu */}
               {servicesDropdownOpen && (
                 <div
-                  className="absolute left-0 mt-1 w-84 rounded-xl bg-white/95 backdrop-blur-xl border border-[#E1E6EA] shadow-[0_12px_36px_rgba(11,27,43,0.1)] py-2 z-50 animate-in fade-in-50 zoom-in-95 duration-200"
+                  className="absolute left-0 mt-1 w-84 rounded-xl bg-midnight-light/98 backdrop-blur-xl border border-white/15 shadow-[0_16px_40px_rgba(0,0,0,0.5)] py-2 z-50 animate-in fade-in-50 zoom-in-95 duration-200"
                   role="menu"
                 >
-                  <div className="px-3.5 py-2 border-b border-[#EDF2F5]">
+                  <div className="px-3.5 py-2 border-b border-white/10">
                     <Link
                       href="/services"
-                      className="text-xs font-semibold uppercase tracking-wider text-[#356C96] hover:text-[#0B1B2B] flex items-center justify-between"
+                      className="text-xs font-semibold uppercase tracking-wider text-steel hover:text-white flex items-center justify-between transition-colors"
                       role="menuitem"
                     >
                       <span>All Services Overview</span>
@@ -125,17 +125,17 @@ export default function Navbar() {
 
                   <Link
                     href="/services/it-staffing"
-                    className="flex items-start px-3.5 py-2.5 text-sm hover:bg-[#F6F7F8] transition-all duration-150 group rounded-lg mx-1"
+                    className="flex items-start px-3.5 py-2.5 text-sm hover:bg-white/10 transition-all duration-150 group rounded-lg mx-1"
                     role="menuitem"
                   >
-                    <div className="p-2 rounded-lg bg-[#EDF2F5] text-[#132A40] group-hover:bg-[#132A40] group-hover:text-white transition-colors mr-3 mt-0.5 shadow-2xs">
+                    <div className="p-2 rounded-lg bg-white/10 text-steel group-hover:bg-steel group-hover:text-white transition-colors mr-3 mt-0.5">
                       <Briefcase className="h-4 w-4" />
                     </div>
                     <div>
-                      <div className="font-medium text-[#172331] group-hover:text-[#0B1B2B]">
+                      <div className="font-medium text-white group-hover:text-steel transition-colors">
                         Direct Client IT Staffing
                       </div>
-                      <p className="text-xs text-[#65717D] mt-0.5 leading-snug">
+                      <p className="text-xs text-slate-light mt-0.5 leading-snug">
                         Dedicated matching for internal requirements.
                       </p>
                     </div>
@@ -143,17 +143,17 @@ export default function Navbar() {
 
                   <Link
                     href="/services/contract-staffing"
-                    className="flex items-start px-3.5 py-2.5 text-sm hover:bg-[#F6F7F8] transition-all duration-150 group rounded-lg mx-1"
+                    className="flex items-start px-3.5 py-2.5 text-sm hover:bg-white/10 transition-all duration-150 group rounded-lg mx-1"
                     role="menuitem"
                   >
-                    <div className="p-2 rounded-lg bg-[#EDF2F5] text-[#132A40] group-hover:bg-[#132A40] group-hover:text-white transition-colors mr-3 mt-0.5 shadow-2xs">
+                    <div className="p-2 rounded-lg bg-white/10 text-steel group-hover:bg-steel group-hover:text-white transition-colors mr-3 mt-0.5">
                       <Clock className="h-4 w-4" />
                     </div>
                     <div>
-                      <div className="font-medium text-[#172331] group-hover:text-[#0B1B2B]">
+                      <div className="font-medium text-white group-hover:text-steel transition-colors">
                         Contract & Contract-to-Hire
                       </div>
-                      <p className="text-xs text-[#65717D] mt-0.5 leading-snug">
+                      <p className="text-xs text-slate-light mt-0.5 leading-snug">
                         Project-based and evaluation-to-permanent models.
                       </p>
                     </div>
@@ -161,17 +161,17 @@ export default function Navbar() {
 
                   <Link
                     href="/services/permanent-placement"
-                    className="flex items-start px-3.5 py-2.5 text-sm hover:bg-[#F6F7F8] transition-all duration-150 group rounded-lg mx-1"
+                    className="flex items-start px-3.5 py-2.5 text-sm hover:bg-white/10 transition-all duration-150 group rounded-lg mx-1"
                     role="menuitem"
                   >
-                    <div className="p-2 rounded-lg bg-[#EDF2F5] text-[#132A40] group-hover:bg-[#132A40] group-hover:text-white transition-colors mr-3 mt-0.5 shadow-2xs">
+                    <div className="p-2 rounded-lg bg-white/10 text-steel group-hover:bg-steel group-hover:text-white transition-colors mr-3 mt-0.5">
                       <Award className="h-4 w-4" />
                     </div>
                     <div>
-                      <div className="font-medium text-[#172331] group-hover:text-[#0B1B2B]">
+                      <div className="font-medium text-white group-hover:text-steel transition-colors">
                         Permanent Placement
                       </div>
-                      <p className="text-xs text-[#65717D] mt-0.5 leading-snug">
+                      <p className="text-xs text-slate-light mt-0.5 leading-snug">
                         Full-lifecycle technical recruitment for permanent roles.
                       </p>
                     </div>
@@ -184,8 +184,8 @@ export default function Navbar() {
               href="/expertise"
               className={`px-3.5 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
                 pathname === "/expertise"
-                  ? "text-[#0B1B2B] bg-[#EDF2F5] font-semibold shadow-2xs"
-                  : "text-[#172331] hover:text-[#0B1B2B] hover:bg-[#F6F7F8]/80"
+                  ? "text-white bg-white/15 font-semibold"
+                  : "text-white/80 hover:text-white hover:bg-white/10"
               }`}
             >
               Technology Expertise
@@ -195,8 +195,8 @@ export default function Navbar() {
               href="/clients"
               className={`px-3.5 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
                 pathname === "/clients"
-                  ? "text-[#0B1B2B] bg-[#EDF2F5] font-semibold shadow-2xs"
-                  : "text-[#172331] hover:text-[#0B1B2B] hover:bg-[#F6F7F8]/80"
+                  ? "text-white bg-white/15 font-semibold"
+                  : "text-white/80 hover:text-white hover:bg-white/10"
               }`}
             >
               For Clients
@@ -206,8 +206,8 @@ export default function Navbar() {
               href="/candidates"
               className={`px-3.5 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
                 pathname === "/candidates"
-                  ? "text-[#0B1B2B] bg-[#EDF2F5] font-semibold shadow-2xs"
-                  : "text-[#172331] hover:text-[#0B1B2B] hover:bg-[#F6F7F8]/80"
+                  ? "text-white bg-white/15 font-semibold"
+                  : "text-white/80 hover:text-white hover:bg-white/10"
               }`}
             >
               For Candidates
@@ -218,7 +218,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white bg-[#0B1B2B] hover:bg-[#132A40] rounded-md transition-all duration-200 shadow-sm hover:shadow hover:-translate-y-0.5 active:translate-y-0 focus:ring-2 focus:ring-[#356C96] focus:ring-offset-2"
+              className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-steel hover:bg-steel-dim rounded-md transition-all duration-200 shadow-sm hover:shadow hover:-translate-y-0.5 active:translate-y-0 focus:ring-2 focus:ring-steel focus:ring-offset-2 focus:ring-offset-midnight"
             >
               <span>Discuss Your Hiring Needs</span>
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -230,7 +230,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-[#172331] hover:text-[#0B1B2B] hover:bg-[#F6F7F8] focus:outline-none focus:ring-2 focus:ring-[#356C96]"
+              className="inline-flex items-center justify-center p-2 rounded-md text-white/80 hover:text-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-steel"
               aria-expanded={mobileMenuOpen}
               aria-label="Toggle navigation menu"
             >
@@ -246,13 +246,13 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-[#E1E6EA] bg-white/95 backdrop-blur-xl px-4 pt-3 pb-6 space-y-2 animate-in slide-in-from-top-2 fade-in duration-200">
+        <div className="lg:hidden border-t border-white/10 bg-midnight-light/98 backdrop-blur-xl px-4 pt-3 pb-6 space-y-2 animate-in slide-in-from-top-2 fade-in duration-200">
           <Link
             href="/about"
             className={`block px-3 py-2.5 rounded-md text-base font-medium ${
               pathname === "/about"
-                ? "text-[#0B1B2B] bg-[#EDF2F5] font-semibold"
-                : "text-[#172331] hover:bg-[#F6F7F8]"
+                ? "text-white bg-white/15 font-semibold"
+                : "text-white/80 hover:bg-white/10"
             }`}
           >
             About Us
@@ -263,19 +263,19 @@ export default function Navbar() {
               href="/services"
               className={`block px-3 py-2.5 rounded-md text-base font-medium ${
                 pathname === "/services"
-                  ? "text-[#0B1B2B] bg-[#EDF2F5] font-semibold"
-                  : "text-[#172331] hover:bg-[#F6F7F8]"
+                  ? "text-white bg-white/15 font-semibold"
+                  : "text-white/80 hover:bg-white/10"
               }`}
             >
               Services Overview
             </Link>
-            <div className="pl-4 space-y-1 border-l-2 border-[#EDF2F5] ml-3">
+            <div className="pl-4 space-y-1 border-l-2 border-white/15 ml-3">
               <Link
                 href="/services/it-staffing"
                 className={`block px-3 py-1.5 rounded-md text-sm ${
                   pathname === "/services/it-staffing"
-                    ? "text-[#0B1B2B] font-semibold"
-                    : "text-[#65717D] hover:text-[#0B1B2B]"
+                    ? "text-white font-semibold"
+                    : "text-slate-light hover:text-white"
                 }`}
               >
                 Direct Client IT Staffing
@@ -284,8 +284,8 @@ export default function Navbar() {
                 href="/services/contract-staffing"
                 className={`block px-3 py-1.5 rounded-md text-sm ${
                   pathname === "/services/contract-staffing"
-                    ? "text-[#0B1B2B] font-semibold"
-                    : "text-[#65717D] hover:text-[#0B1B2B]"
+                    ? "text-white font-semibold"
+                    : "text-slate-light hover:text-white"
                 }`}
               >
                 Contract & Contract-to-Hire
@@ -294,8 +294,8 @@ export default function Navbar() {
                 href="/services/permanent-placement"
                 className={`block px-3 py-1.5 rounded-md text-sm ${
                   pathname === "/services/permanent-placement"
-                    ? "text-[#0B1B2B] font-semibold"
-                    : "text-[#65717D] hover:text-[#0B1B2B]"
+                    ? "text-white font-semibold"
+                    : "text-slate-light hover:text-white"
                 }`}
               >
                 Permanent Placement
@@ -307,8 +307,8 @@ export default function Navbar() {
             href="/expertise"
             className={`block px-3 py-2.5 rounded-md text-base font-medium ${
               pathname === "/expertise"
-                ? "text-[#0B1B2B] bg-[#EDF2F5] font-semibold"
-                : "text-[#172331] hover:bg-[#F6F7F8]"
+                ? "text-white bg-white/15 font-semibold"
+                : "text-white/80 hover:bg-white/10"
             }`}
           >
             Technology Expertise
@@ -318,8 +318,8 @@ export default function Navbar() {
             href="/clients"
             className={`block px-3 py-2.5 rounded-md text-base font-medium ${
               pathname === "/clients"
-                ? "text-[#0B1B2B] bg-[#EDF2F5] font-semibold"
-                : "text-[#172331] hover:bg-[#F6F7F8]"
+                ? "text-white bg-white/15 font-semibold"
+                : "text-white/80 hover:bg-white/10"
             }`}
           >
             For Clients
@@ -329,17 +329,17 @@ export default function Navbar() {
             href="/candidates"
             className={`block px-3 py-2.5 rounded-md text-base font-medium ${
               pathname === "/candidates"
-                ? "text-[#0B1B2B] bg-[#EDF2F5] font-semibold"
-                : "text-[#172331] hover:bg-[#F6F7F8]"
+                ? "text-white bg-white/15 font-semibold"
+                : "text-white/80 hover:bg-white/10"
             }`}
           >
             For Candidates
           </Link>
 
-          <div className="pt-4 border-t border-[#E1E6EA]">
+          <div className="pt-4 border-t border-white/10">
             <Link
               href="/contact"
-              className="w-full flex items-center justify-center px-4 py-3 rounded-md text-base font-medium text-white bg-[#0B1B2B] hover:bg-[#132A40] transition-colors shadow-sm"
+              className="w-full flex items-center justify-center px-4 py-3 rounded-md text-base font-medium text-white bg-steel hover:bg-steel-dim transition-colors shadow-sm"
             >
               <span>Discuss Your Hiring Needs</span>
               <ArrowRight className="ml-2 h-4 w-4" />
