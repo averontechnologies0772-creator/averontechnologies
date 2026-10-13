@@ -14,17 +14,26 @@ export default function LaunchingSoonPage() {
   const textRef = useRef<HTMLParagraphElement>(null);
   const actionRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
+  const yearRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    if (yearRef.current) {
+      yearRef.current.textContent = String(new Date().getFullYear());
+    }
+  }, []);
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     company: "",
     engagementType: "Contract Staffing",
     requirements: "",
+    website: "",
   });
 
   // Close modal on Escape key
@@ -85,18 +94,35 @@ export default function LaunchingSoonPage() {
     { scope: containerRef }
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    setSubmitError("");
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+        signal: AbortSignal.timeout(40_000),
+      });
+      const result = await response.json();
+      if (!response.ok || result.success !== true) {
+        setSubmitError(typeof result.error === "string" ? result.error : "Your inquiry could not be sent. Please try again.");
+        return;
+      }
       setIsSubmitted(true);
-    }, 900);
+    } catch {
+      setSubmitError("We could not confirm your submission. Please check your connection and try again, or email our team directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
     setIsSubmitted(false);
+    setSubmitError("");
     setIsModalOpen(false);
     setFormData({
       name: "",
@@ -104,6 +130,7 @@ export default function LaunchingSoonPage() {
       company: "",
       engagementType: "Contract Staffing",
       requirements: "",
+      website: "",
     });
   };
 
@@ -157,24 +184,23 @@ export default function LaunchingSoonPage() {
           </div>
         </div>
 
-        {/* Status indicator pill */}
+        {/* Brand label below the logo */}
         <div
           ref={pillRef}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#0B1E36]/70 border border-[#38BDF8]/35 backdrop-blur-md text-[11px] sm:text-xs font-semibold text-[#7DD3FC] tracking-[0.16em] uppercase mb-5 sm:mb-6 shadow-[0_4px_16px_rgba(2,132,199,0.15)]"
+          className="mb-5 sm:mb-6 inline-flex items-center rounded-full border border-[#7DB9EE]/25 bg-[#173754]/40 px-4 py-1.5 text-[10px] sm:text-[11px] font-medium uppercase tracking-[0.14em] text-[#BDDDF6] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md"
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-[#38BDF8] animate-pulse shadow-[0_0_8px_#38BDF8]" />
-          <span>AVERON TECHNOLOGIES LLC</span>
+          <span>Averon Technologies LLC</span>
         </div>
 
         {/* Headline */}
         <h1
           ref={titleRef}
-          className="text-4xl sm:text-5xl lg:text-[54px] font-bold tracking-tight text-white leading-[1.12] mb-4 sm:mb-5"
+          className="text-[38px] sm:text-5xl lg:text-[52px] font-medium tracking-[-0.045em] text-[#F2F6FC] leading-[1.12] mb-4 sm:mb-5 text-balance"
         >
           We&apos;re Launching Soon
         </h1>
 
-        {/* Description matching the exact reference typography */}
+        {/* Supporting copy */}
         <p
           ref={textRef}
           className="text-sm sm:text-[15px] lg:text-base text-[#94A3B8] max-w-xl leading-relaxed sm:leading-relaxed mx-auto px-4"
@@ -183,22 +209,89 @@ export default function LaunchingSoonPage() {
           Connecting enterprises across the United States with exceptional engineering talent.
         </p>
 
-        {/* Button with Minimal Apple / Xiaomi / Realme Glassmorphism UI */}
+        {/* Button: Exact Capsule Pill with Mail icon and Right Arrow */}
         <div
           ref={actionRef}
-          className="mt-6 sm:mt-7 flex flex-col sm:flex-row items-center gap-4"
+          className="mt-6 sm:mt-7 flex flex-col items-center gap-5"
         >
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="group relative inline-flex items-center gap-3 px-7 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-white/[0.08] hover:bg-white/[0.14] active:bg-white/[0.06] backdrop-blur-2xl border border-white/[0.22] hover:border-white/40 text-white text-[14px] sm:text-[15px] font-medium tracking-wide transition-all duration-300 ease-out shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.45),0_12px_36px_rgba(0,0,0,0.45),0_0_24px_rgba(56,189,248,0.18)] hover:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.65),0_16px_44px_rgba(0,0,0,0.55),0_0_36px_rgba(56,189,248,0.32)] hover:scale-[1.025] active:scale-[0.97] cursor-pointer overflow-hidden"
+            className="hiring-glass-button group"
+            aria-haspopup="dialog"
+            aria-expanded={isModalOpen}
           >
-            {/* Subtle glass reflection sheen */}
-            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/70 to-transparent pointer-events-none" />
+            {/* Specular glass reflection sheen */}
+            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
             
-            <Mail className="h-4 w-4 text-[#7DD3FC] group-hover:text-white transition-colors duration-200" />
-            <span className="text-white/95 group-hover:text-white">Contact For Hiring Inquiries</span>
+            <svg aria-hidden="true" className="h-[18px] w-[18px] flex-shrink-0" viewBox="0 0 24 24" fill="none">
+              <path d="M2 5h20v14H2z" fill="#F1F5F9" />
+              <path d="m2 5 10 8L22 5" fill="#BFD9F1" stroke="#FFFFFF" strokeWidth="1.2" strokeLinejoin="round" />
+              <path d="m2 19 7-7m13 7-7-7" stroke="#7CAAD0" strokeWidth="1.2" />
+            </svg>
+            <span className="text-white">Contact For Hiring Inquiries</span>
+            <ArrowRight className="h-4 w-4 text-white transition-transform duration-200 group-hover:translate-x-1 flex-shrink-0" />
           </button>
+
+          {/* Socials Divider & Icons (LinkedIn, Instagram, WhatsApp) */}
+          <div className="flex w-[190px] flex-col items-center gap-2">
+            <div className="flex w-full items-center gap-4">
+              <div className="h-px flex-1 bg-[#72869f]/25" />
+              <span className="text-[9px] font-semibold tracking-[0.35em] text-[#8494AC] uppercase">
+                SOCIALS
+              </span>
+              <div className="h-px flex-1 bg-[#72869f]/25" />
+            </div>
+
+            <div className="flex items-center justify-center gap-3 sm:translate-y-5">
+              {/* LinkedIn */}
+              <a
+                href="https://www.linkedin.com/company/averontechnologies/posts/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="launch-social-link text-[#159BE3]"
+              >
+                <svg aria-hidden="true" className="h-[22px] w-[22px] fill-current" viewBox="0 0 24 24">
+                  <path d="M5.372 24H.398V7.982h4.974V24zM2.882 5.797A2.884 2.884 0 1 1 2.91.03a2.884 2.884 0 0 1-.028 5.767zM24 24h-4.965v-7.797c0-1.858-.038-4.249-2.589-4.249-2.589 0-2.986 2.025-2.986 4.115V24H8.49V7.982h4.771v2.185h.07c.664-1.259 2.287-2.589 4.708-2.589C23.074 7.578 24 10.894 24 15.2V24z" />
+                </svg>
+              </a>
+
+              {/* Instagram */}
+              <a
+                href="https://www.instagram.com/averontechnologiesllc/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="launch-social-link"
+              >
+                <svg aria-hidden="true" className="h-[22px] w-[22px]" fill="url(#launch-instagram-gradient)" viewBox="0 0 24 24">
+                  <defs>
+                    <linearGradient id="launch-instagram-gradient" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#FFD05F" />
+                      <stop offset="0.35" stopColor="#FF526C" />
+                      <stop offset="0.7" stopColor="#D945B9" />
+                      <stop offset="1" stopColor="#775CF4" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+              </a>
+
+              {/* WhatsApp */}
+              <a
+                href="https://wa.me/919316228510"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                className="launch-social-link text-[#25D366]"
+              >
+                <svg aria-hidden="true" className="h-[24px] w-[24px] fill-current" viewBox="0 0 24 24">
+                  <path d="M20.52 3.48A11.86 11.86 0 0 0 12.04 0C5.5 0 .18 5.32.18 11.86c0 2.09.55 4.13 1.58 5.93L.08 24l6.35-1.67a11.85 11.85 0 0 0 5.61 1.43h.01c6.54 0 11.86-5.32 11.86-11.86 0-3.17-1.24-6.15-3.49-8.42ZM12.04 21.76a9.84 9.84 0 0 1-5.02-1.37l-.36-.21-3.77.99 1.01-3.68-.24-.38a9.85 9.85 0 0 1-1.51-5.25c0-5.43 4.43-9.86 9.9-9.86a9.8 9.8 0 0 1 7 2.9 9.8 9.8 0 0 1 2.89 7.01c0 5.43-4.43 9.85-9.9 9.85Zm5.42-7.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.48-1.74-1.65-2.04-.17-.3-.02-.46.13-.61.13-.13.3-.35.44-.52.15-.17.2-.3.3-.5.1-.19.05-.36-.02-.51-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.87 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.48 1.69.62.71.22 1.36.19 1.88.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35Z" />
+                </svg>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -207,7 +300,7 @@ export default function LaunchingSoonPage() {
         ref={footerRef}
         className="relative z-10 text-[11px] sm:text-xs text-[#64748B] tracking-wide"
       >
-        © {new Date().getFullYear()} Averon Technologies LLC. All rights reserved.
+        © <span ref={yearRef}>2026</span> Averon Technologies LLC. All rights reserved.
       </div>
 
       {/* ── Interactive Glassmorphic Popup Modal Form (Matching Reference) ── */}
@@ -215,12 +308,18 @@ export default function LaunchingSoonPage() {
         <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/65 backdrop-blur-xl"
+            className="hiring-glass-backdrop fixed inset-0"
             onClick={() => setIsModalOpen(false)}
           />
 
-          {/* Modal Container — Smoked Frosted Glass matching reference */}
-          <div className="relative z-10 w-full max-w-lg bg-black/55 backdrop-blur-[36px] border border-white/[0.16] rounded-[28px] sm:rounded-[32px] p-6 sm:p-8 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.32),0_32px_80px_rgba(0,0,0,0.85)] text-left animate-in zoom-in-95 duration-200">
+          {/* Blue glass panel matching the hiring button and page lighting */}
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="hiring-dialog-title"
+            className="hiring-glass-modal relative z-10 w-full max-w-lg max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-[28px] sm:rounded-[32px] p-6 sm:p-8 text-left select-text"
+            style={{ WebkitBackdropFilter: "blur(22px) saturate(135%)", backdropFilter: "blur(22px) saturate(135%)" }}
+          >
             {/* Top Bar matching reference: Brand Emblem + Name on Left, Circular Glass 'x' on Right */}
             <div className="flex items-center justify-between pb-5 mb-5 border-b border-white/[0.1]">
               <div className="flex items-center gap-3">
@@ -233,7 +332,7 @@ export default function LaunchingSoonPage() {
                   />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white tracking-tight">
+                  <h3 id="hiring-dialog-title" className="text-lg font-bold text-white tracking-tight">
                     Averon Technologies
                   </h3>
                   <span className="text-[10px] text-[#7DD3FC] tracking-wider uppercase font-semibold">
@@ -273,12 +372,20 @@ export default function LaunchingSoonPage() {
                 </div>
 
                 {/* Form with Frosted Glass Inputs */}
-                <form onSubmit={handleSubmit} className="space-y-3.5">
+                <form onSubmit={handleSubmit} aria-busy={isSubmitting}>
+                  <fieldset disabled={isSubmitting} className="space-y-3.5">
+                  <div hidden aria-hidden="true">
+                    <label htmlFor="hiring-website">Website</label>
+                    <input id="hiring-website" name="website" tabIndex={-1} autoComplete="off" value={formData.website} onChange={(e) => setFormData({ ...formData, website: e.target.value })} />
+                  </div>
                   <div>
-                    <label className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
+                    <label htmlFor="hiring-name" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
                       Your Name <span className="text-[#38BDF8]">*</span>
                     </label>
                     <input
+                      id="hiring-name"
+                      autoComplete="name"
+                      maxLength={100}
                       type="text"
                       required
                       value={formData.name}
@@ -286,16 +393,19 @@ export default function LaunchingSoonPage() {
                         setFormData({ ...formData, name: e.target.value })
                       }
                       placeholder="e.g. Sarah Jenkins"
-                      className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] focus:bg-white/[0.09] border border-white/[0.14] focus:border-[#38BDF8]/70 text-white placeholder-white/30 text-sm focus:outline-none transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                      className="hiring-glass-field"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
+                      <label htmlFor="hiring-email" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
                         Work Email <span className="text-[#38BDF8]">*</span>
                       </label>
                       <input
+                        id="hiring-email"
+                        autoComplete="email"
+                        maxLength={254}
                         type="email"
                         required
                         value={formData.email}
@@ -303,31 +413,35 @@ export default function LaunchingSoonPage() {
                           setFormData({ ...formData, email: e.target.value })
                         }
                         placeholder="sarah@enterprise.com"
-                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] focus:bg-white/[0.09] border border-white/[0.14] focus:border-[#38BDF8]/70 text-white placeholder-white/30 text-sm focus:outline-none transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                        className="hiring-glass-field"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
+                      <label htmlFor="hiring-company" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
                         Company Name
                       </label>
                       <input
+                        id="hiring-company"
+                        autoComplete="organization"
+                        maxLength={150}
                         type="text"
                         value={formData.company}
                         onChange={(e) =>
                           setFormData({ ...formData, company: e.target.value })
                         }
                         placeholder="Acme Tech"
-                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] focus:bg-white/[0.09] border border-white/[0.14] focus:border-[#38BDF8]/70 text-white placeholder-white/30 text-sm focus:outline-none transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                        className="hiring-glass-field"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
+                    <label htmlFor="hiring-engagement" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
                       Engagement Model
                     </label>
                     <select
+                      id="hiring-engagement"
                       value={formData.engagementType}
                       onChange={(e) =>
                         setFormData({
@@ -335,7 +449,7 @@ export default function LaunchingSoonPage() {
                           engagementType: e.target.value,
                         })
                       }
-                      className="w-full px-4 py-2.5 rounded-xl bg-[#081220] border border-white/[0.14] focus:border-[#38BDF8]/70 text-white text-sm focus:outline-none transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                      className="hiring-glass-field"
                     >
                       <option value="Contract Staffing">Contract Staffing (Project-Based)</option>
                       <option value="Contract-to-Hire">Contract-to-Hire</option>
@@ -345,10 +459,12 @@ export default function LaunchingSoonPage() {
                   </div>
 
                   <div>
-                    <label className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
+                    <label htmlFor="hiring-requirements" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
                       Hiring Requirement / Tech Stack <span className="text-[#38BDF8]">*</span>
                     </label>
                     <textarea
+                      id="hiring-requirements"
+                      maxLength={5000}
                       required
                       rows={3}
                       value={formData.requirements}
@@ -359,16 +475,22 @@ export default function LaunchingSoonPage() {
                         })
                       }
                       placeholder="e.g. 2 Senior React / Node engineers with AWS experience, 6-month contract..."
-                      className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] focus:bg-white/[0.09] border border-white/[0.14] focus:border-[#38BDF8]/70 text-white placeholder-white/30 text-sm focus:outline-none transition-all resize-none shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                      className="hiring-glass-field resize-none"
                     />
                   </div>
 
-                  {/* Submit Button with matching Glassmorphism */}
+                  {submitError && (
+                    <p role="alert" className="rounded-xl border border-rose-300/30 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
+                      {submitError}
+                    </p>
+                  )}
+
+                  {/* Submit Button with matching Capsule Glassmorphism */}
                   <div className="pt-2">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="group relative w-full inline-flex items-center justify-center gap-2.5 py-3.5 rounded-2xl bg-white/[0.12] hover:bg-white/[0.2] active:bg-white/[0.08] backdrop-blur-2xl border border-white/[0.25] text-white text-[15px] font-semibold tracking-wide transition-all duration-300 ease-out shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.55),0_12px_32px_rgba(0,0,0,0.5),0_0_24px_rgba(56,189,248,0.22)] hover:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.75),0_16px_40px_rgba(0,0,0,0.6),0_0_36px_rgba(56,189,248,0.38)] hover:scale-[1.015] active:scale-[0.985] disabled:opacity-50 cursor-pointer overflow-hidden"
+                      className="hiring-glass-button hiring-glass-submit group disabled:opacity-50"
                     >
                       <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
 
@@ -379,12 +501,14 @@ export default function LaunchingSoonPage() {
                         </>
                       ) : (
                         <>
+                          <Mail className="h-4 w-4 text-white fill-white/20 flex-shrink-0" />
                           <span>Submit Hiring Inquiry</span>
-                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 text-[#7DD3FC]" />
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 text-white flex-shrink-0" />
                         </>
                       )}
                     </button>
                   </div>
+                  </fieldset>
                 </form>
 
                 {/* Bottom Channels row matching reference style */}
@@ -405,11 +529,11 @@ export default function LaunchingSoonPage() {
                   <CheckCircle2 className="h-8 w-8" />
                 </div>
                 <h3 className="text-2xl font-bold text-white tracking-tight">
-                  Inquiry Received
+                  Inquiry Sent
                 </h3>
                 <p className="text-sm text-[#94A3B8] max-w-sm mx-auto leading-relaxed">
-                  Thank you, <span className="text-white font-semibold">{formData.name}</span>. Our technical recruitment desk has received your details and will coordinate with you at{" "}
-                  <span className="text-[#38BDF8]">{formData.email}</span> within 24 hours.
+                  Thank you, <span className="text-white font-semibold">{formData.name}</span>. Your inquiry has been sent to our recruitment desk. Our team will follow up at{" "}
+                  <span className="text-[#38BDF8]">{formData.email}</span>.
                 </p>
                 <div className="pt-4">
                   <button

@@ -99,6 +99,106 @@ body {
   animation-play-state: paused;
 }
 
+/* Launch page: reference blue glass and unframed brand icons. */
+.hiring-glass-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 272px;
+  max-width: 100%;
+  min-height: 45px;
+  padding: 12px 20px;
+  overflow: hidden;
+  border: 1px solid rgba(135, 181, 232, 0.5);
+  border-radius: 21px;
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(21, 112, 220, 0.5), transparent 58%),
+    radial-gradient(ellipse at 100% 100%, rgba(22, 102, 206, 0.42), transparent 55%),
+    linear-gradient(110deg, rgba(29, 56, 86, 0.94), rgba(24, 42, 65, 0.94) 55%, rgba(47, 66, 94, 0.94));
+  box-shadow: inset 0 1px 8px rgba(171, 204, 247, 0.25), 0 0 22px rgba(22, 112, 222, 0.24), 0 8px 22px rgba(0, 18, 46, 0.3);
+  backdrop-filter: blur(20px);
+  color: #edf3fc;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 19px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.hiring-glass-button:hover {
+  border-color: rgba(153, 211, 255, 0.8);
+  box-shadow: inset 0 1px 10px rgba(171, 204, 247, 0.3), 0 0 28px rgba(22, 112, 222, 0.4);
+}
+
+.hiring-glass-button:active {
+  transform: translateY(1px);
+}
+
+.hiring-glass-submit {
+  width: 100%;
+  min-height: 45px;
+}
+
+.launch-social-link {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  transition: filter 200ms ease, transform 200ms ease;
+}
+
+.launch-social-link:hover {
+  filter: brightness(1.2) drop-shadow(0 0 7px currentColor);
+  transform: translateY(-2px);
+}
+
+.hiring-glass-backdrop {
+  background: rgba(3, 14, 29, 0.2);
+}
+
+.hiring-glass-modal {
+  color-scheme: dark;
+  border: 1px solid rgba(219, 234, 252, 0.25);
+  background:
+    linear-gradient(135deg, rgba(223, 239, 255, 0.11), rgba(211, 232, 255, 0.025) 42%, rgba(124, 185, 246, 0.065)),
+    rgba(10, 29, 51, 0.42);
+  box-shadow: inset 0 1px 0 rgba(235, 247, 255, 0.5), inset 0 -1px 0 rgba(163, 205, 246, 0.12), 0 24px 80px rgba(1, 14, 35, 0.4), 0 0 36px rgba(87, 163, 244, 0.08);
+  scrollbar-color: #44688e #102a46;
+}
+
+.hiring-glass-field {
+  width: 100%;
+  padding: 10px 16px;
+  border: 1px solid rgba(197, 222, 247, 0.24);
+  border-radius: 12px;
+  background: linear-gradient(120deg, rgba(221, 236, 255, 0.09), rgba(221, 236, 255, 0.045));
+  box-shadow: inset 0 1px 0 rgba(224, 241, 255, 0.1), 0 2px 8px rgba(0, 12, 30, 0.05);
+  color: #f1f6ff;
+  font-size: 14px;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.hiring-glass-field::placeholder {
+  color: #a4b9cf;
+}
+
+.hiring-glass-field:focus {
+  outline: 2px solid #7dd3fc;
+  outline-offset: 2px;
+  border-color: #7dd3fc;
+  background: rgba(216, 235, 255, 0.1);
+}
+
+.hiring-glass-field option {
+  background: #153353;
+  color: #f1f6ff;
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   html {

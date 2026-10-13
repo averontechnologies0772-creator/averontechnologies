@@ -20,6 +20,25 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Hiring inquiry email
+
+The home page popup posts to `/api/contact`, which sends a plain-text inquiry to
+`CONTACT_TO` using Nodemailer and the configured SMTP mailbox. The visitor's email
+is set as Reply-To. The form reports success only after SMTP accepts the recipient.
+
+Copy `.env.example` to `.env.local` and set the mailbox password. Keep `.env.local`
+out of Git. Set the same variables in the production host's server environment and
+restart/redeploy the Node.js app; this endpoint does not work on static-only hosting.
+Hostinger Email uses `smtp.hostinger.com`, port `465`, and `SMTP_SECURE=true`.
+
+The endpoint validates fields, caps request size, checks browser origin, and uses a
+honeypot and basic per-process rate limits. For multiple server instances, use a
+shared rate limiter or hosting-level protection. SMTP acceptance is not a guarantee
+of inbox placement; verify delivery with a real inquiry after deployment.
+
+Run the isolated API tests with `node --test tests/contact.test.mjs` (Node 22.18+).
+The tests mock SMTP and do not send email.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
