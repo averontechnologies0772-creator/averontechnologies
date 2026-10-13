@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="nav-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0B1B2B" />
+      <stop offset="60%" stop-color="#132A40" />
+      <stop offset="100%" stop-color="#356C96" />
+    </linearGradient>
+    <linearGradient id="ribbon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#356C96" />
+      <stop offset="50%" stop-color="#54758F" />
+      <stop offset="100%" stop-color="#132A40" />
+    </linearGradient>
+    <filter id="subtle-shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#0B1B2B" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Clean rounded badge container -->
+  <rect width="512" height="512" rx="112" fill="#FFFFFF" />
+
+  <!-- Stylized Geometric 'A' Mark -->
+  <g filter="url(#subtle-shadow)">
+    <!-- Left Leg -->
+    <path d="M 120 420 L 236 84 C 244 64 268 64 276 84 L 392 420 C 398 438 378 454 360 442 L 304 406 C 294 400 286 390 282 380 L 256 312 L 196 312 L 170 380 C 166 390 158 400 148 406 L 92 442 C 74 454 54 438 60 420 Z" fill="url(#nav-grad)" />
+    
+    <!-- Dynamic Cross Ribbon Ribbon connecting the apex -->
+    <path d="M 168 296 L 344 296 C 358 296 366 312 356 322 L 272 414 C 264 422 248 422 240 414 L 156 322 C 146 312 154 296 168 296 Z" fill="url(#ribbon-grad)" opacity="0.95" />
+    
+    <!-- Crisp Inner Triangular Apex Negative Space -->
+    <polygon points="256,156 210,268 302,268" fill="#FFFFFF" />
+  </g>
+</svg>
