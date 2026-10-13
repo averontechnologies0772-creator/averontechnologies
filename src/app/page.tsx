@@ -210,47 +210,72 @@ export default function LaunchingSoonPage() {
         © {new Date().getFullYear()} Averon Technologies LLC. All rights reserved.
       </div>
 
-      {/* ── Interactive Popup Modal Form ── */}
+      {/* ── Interactive Glassmorphic Popup Modal Form (Matching Reference) ── */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 bg-black/65 backdrop-blur-xl"
             onClick={() => setIsModalOpen(false)}
           />
 
-          {/* Modal Container */}
-          <div className="relative z-10 w-full max-w-lg bg-[#0A1628]/95 border border-[#38BDF8]/30 rounded-2xl p-6 sm:p-8 shadow-[0_24px_80px_rgba(0,0,0,0.8)] text-left animate-in zoom-in-95 duration-200 backdrop-blur-xl">
-            {/* Close Button */}
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(false)}
-              className="absolute top-5 right-5 p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
-              aria-label="Close modal"
-            >
-              <X className="h-5 w-5" />
-            </button>
+          {/* Modal Container — Smoked Frosted Glass matching reference */}
+          <div className="relative z-10 w-full max-w-lg bg-black/55 backdrop-blur-[36px] border border-white/[0.16] rounded-[28px] sm:rounded-[32px] p-6 sm:p-8 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.32),0_32px_80px_rgba(0,0,0,0.85)] text-left animate-in zoom-in-95 duration-200">
+            {/* Top Bar matching reference: Brand Emblem + Name on Left, Circular Glass 'x' on Right */}
+            <div className="flex items-center justify-between pb-5 mb-5 border-b border-white/[0.1]">
+              <div className="flex items-center gap-3">
+                <div className="relative w-8 h-8 rounded-full overflow-hidden bg-white border border-[#38BDF8]/60 shadow-[0_0_12px_rgba(56,189,248,0.4)]">
+                  <Image
+                    src="/images/logo.png"
+                    alt="Averon"
+                    fill
+                    className="object-cover scale-105"
+                  />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white tracking-tight">
+                    Averon Technologies
+                  </h3>
+                  <span className="text-[10px] text-[#7DD3FC] tracking-wider uppercase font-semibold">
+                    Direct Recruitment Desk
+                  </span>
+                </div>
+              </div>
+
+              {/* Circular frosted glass close button like reference */}
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(false)}
+                className="w-9 h-9 rounded-full bg-white/[0.1] hover:bg-white/[0.2] active:bg-white/[0.06] border border-white/[0.18] flex items-center justify-center text-white/80 hover:text-white transition-all duration-200 cursor-pointer shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.2)]"
+                aria-label="Close modal"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
 
             {!isSubmitted ? (
               <>
-                {/* Header */}
-                <div className="mb-6 pr-8">
-                  <div className="inline-flex items-center gap-2 text-xs font-semibold text-[#38BDF8] uppercase tracking-wider mb-2">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#38BDF8]" />
-                    Direct Recruitment Desk
+                {/* Intro Pod like the reference "Afsuham Sense" pod */}
+                <div className="mb-5 p-4 rounded-[20px] bg-white/[0.05] border border-white/[0.12] shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-white/[0.1] border border-white/[0.15] flex items-center justify-center text-[#7DD3FC] flex-shrink-0">
+                      <Mail className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-white tracking-tight">
+                        Start a Hiring Conversation
+                      </h4>
+                      <p className="text-xs text-[#94A3B8] mt-0.5 leading-snug">
+                        Share your role details and our technical recruiters will coordinate with you.
+                      </p>
+                    </div>
                   </div>
-                  <h3 className="text-2xl font-bold text-white tracking-tight">
-                    Discuss Your Hiring Needs
-                  </h3>
-                  <p className="text-xs sm:text-sm text-[#94A3B8] mt-1.5 leading-relaxed">
-                    Tell us about the technology professionals or engineering capacity your team requires.
-                  </p>
                 </div>
 
-                {/* Form */}
-                <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Form with Frosted Glass Inputs */}
+                <form onSubmit={handleSubmit} className="space-y-3.5">
                   <div>
-                    <label className="block text-xs font-semibold text-white/90 uppercase tracking-wider mb-1.5">
+                    <label className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
                       Your Name <span className="text-[#38BDF8]">*</span>
                     </label>
                     <input
@@ -260,14 +285,14 @@ export default function LaunchingSoonPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, name: e.target.value })
                       }
-                      placeholder="John Doe"
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#050D1A] border border-white/15 text-white placeholder-slate-500 text-sm focus:border-[#38BDF8] focus:outline-none transition-colors"
+                      placeholder="e.g. Sarah Jenkins"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] focus:bg-white/[0.09] border border-white/[0.14] focus:border-[#38BDF8]/70 text-white placeholder-white/30 text-sm focus:outline-none transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                     />
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold text-white/90 uppercase tracking-wider mb-1.5">
+                      <label className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
                         Work Email <span className="text-[#38BDF8]">*</span>
                       </label>
                       <input
@@ -277,13 +302,13 @@ export default function LaunchingSoonPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, email: e.target.value })
                         }
-                        placeholder="john@company.com"
-                        className="w-full px-4 py-2.5 rounded-lg bg-[#050D1A] border border-white/15 text-white placeholder-slate-500 text-sm focus:border-[#38BDF8] focus:outline-none transition-colors"
+                        placeholder="sarah@enterprise.com"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] focus:bg-white/[0.09] border border-white/[0.14] focus:border-[#38BDF8]/70 text-white placeholder-white/30 text-sm focus:outline-none transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-white/90 uppercase tracking-wider mb-1.5">
+                      <label className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
                         Company Name
                       </label>
                       <input
@@ -292,14 +317,14 @@ export default function LaunchingSoonPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, company: e.target.value })
                         }
-                        placeholder="Acme Corp"
-                        className="w-full px-4 py-2.5 rounded-lg bg-[#050D1A] border border-white/15 text-white placeholder-slate-500 text-sm focus:border-[#38BDF8] focus:outline-none transition-colors"
+                        placeholder="Acme Tech"
+                        className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] focus:bg-white/[0.09] border border-white/[0.14] focus:border-[#38BDF8]/70 text-white placeholder-white/30 text-sm focus:outline-none transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-white/90 uppercase tracking-wider mb-1.5">
+                    <label className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
                       Engagement Model
                     </label>
                     <select
@@ -310,7 +335,7 @@ export default function LaunchingSoonPage() {
                           engagementType: e.target.value,
                         })
                       }
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#050D1A] border border-white/15 text-white text-sm focus:border-[#38BDF8] focus:outline-none transition-colors"
+                      className="w-full px-4 py-2.5 rounded-xl bg-[#081220] border border-white/[0.14] focus:border-[#38BDF8]/70 text-white text-sm focus:outline-none transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                     >
                       <option value="Contract Staffing">Contract Staffing (Project-Based)</option>
                       <option value="Contract-to-Hire">Contract-to-Hire</option>
@@ -320,7 +345,7 @@ export default function LaunchingSoonPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-white/90 uppercase tracking-wider mb-1.5">
+                    <label className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
                       Hiring Requirement / Tech Stack <span className="text-[#38BDF8]">*</span>
                     </label>
                     <textarea
@@ -333,43 +358,50 @@ export default function LaunchingSoonPage() {
                           requirements: e.target.value,
                         })
                       }
-                      placeholder="e.g. 2 Senior React/Node Engineers with AWS experience, 6-month contract starting next month..."
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#050D1A] border border-white/15 text-white placeholder-slate-500 text-sm focus:border-[#38BDF8] focus:outline-none transition-colors resize-none"
+                      placeholder="e.g. 2 Senior React / Node engineers with AWS experience, 6-month contract..."
+                      className="w-full px-4 py-2.5 rounded-xl bg-white/[0.05] focus:bg-white/[0.09] border border-white/[0.14] focus:border-[#38BDF8]/70 text-white placeholder-white/30 text-sm focus:outline-none transition-all resize-none shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                     />
                   </div>
 
-                  <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+                  {/* Submit Button with matching Glassmorphism */}
+                  <div className="pt-2">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-[#1B68C2] to-[#2577D6] hover:from-[#175bb0] hover:to-[#1e66ba] text-white text-sm font-semibold transition-all duration-200 disabled:opacity-50 cursor-pointer shadow-md"
+                      className="group relative w-full inline-flex items-center justify-center gap-2.5 py-3.5 rounded-2xl bg-white/[0.12] hover:bg-white/[0.2] active:bg-white/[0.08] backdrop-blur-2xl border border-white/[0.25] text-white text-[15px] font-semibold tracking-wide transition-all duration-300 ease-out shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.55),0_12px_32px_rgba(0,0,0,0.5),0_0_24px_rgba(56,189,248,0.22)] hover:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.75),0_16px_40px_rgba(0,0,0,0.6),0_0_36px_rgba(56,189,248,0.38)] hover:scale-[1.015] active:scale-[0.985] disabled:opacity-50 cursor-pointer overflow-hidden"
                     >
+                      <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
+
                       {isSubmitting ? (
                         <>
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                          <span>Submitting...</span>
+                          <Loader2 className="h-4 w-4 animate-spin text-[#7DD3FC]" />
+                          <span>Submitting Inquiry...</span>
                         </>
                       ) : (
                         <>
-                          <span>Submit Inquiry</span>
-                          <ArrowRight className="h-4 w-4" />
+                          <span>Submit Hiring Inquiry</span>
+                          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 text-[#7DD3FC]" />
                         </>
                       )}
                     </button>
-
-                    <a
-                      href="mailto:info@averontechnologiesllc.com"
-                      className="text-xs text-[#94A3B8] hover:text-white transition-colors"
-                    >
-                      Or email info@averontechnologiesllc.com
-                    </a>
                   </div>
                 </form>
+
+                {/* Bottom Channels row matching reference style */}
+                <div className="mt-5 pt-4 border-t border-white/[0.1] flex items-center justify-between text-xs text-[#94A3B8]">
+                  <span>Direct desk:</span>
+                  <a
+                    href="mailto:info@averontechnologiesllc.com"
+                    className="text-[#7DD3FC] hover:text-white transition-colors underline-offset-2 hover:underline"
+                  >
+                    info@averontechnologiesllc.com
+                  </a>
+                </div>
               </>
             ) : (
               /* Success Confirmation */
               <div className="py-8 text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#38BDF8]/20 text-[#38BDF8] border border-[#38BDF8]/30 mb-2">
+                <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#38BDF8]/20 text-[#38BDF8] border border-[#38BDF8]/40 mb-2 shadow-[0_0_24px_rgba(56,189,248,0.3)]">
                   <CheckCircle2 className="h-8 w-8" />
                 </div>
                 <h3 className="text-2xl font-bold text-white tracking-tight">
@@ -383,7 +415,7 @@ export default function LaunchingSoonPage() {
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="inline-flex items-center justify-center px-6 py-2.5 rounded-lg bg-white/10 hover:bg-white/15 text-white text-sm font-semibold transition-colors cursor-pointer"
+                    className="inline-flex items-center justify-center px-7 py-2.5 rounded-xl bg-white/[0.1] hover:bg-white/[0.2] border border-white/[0.2] text-white text-sm font-semibold transition-all cursor-pointer shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]"
                   >
                     Done
                   </button>
