@@ -183,7 +183,7 @@ export default function LaunchingSoonPage() {
           Connecting enterprises across the United States with exceptional engineering talent.
         </p>
 
-        {/* Button with exact royal blue styling & icon */}
+        {/* Button with Minimal Apple / Xiaomi / Realme Glassmorphism UI */}
         <div
           ref={actionRef}
           className="mt-6 sm:mt-7 flex flex-col sm:flex-row items-center gap-4"
@@ -191,10 +191,13 @@ export default function LaunchingSoonPage() {
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2.5 px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl bg-gradient-to-r from-[#1B68C2] to-[#2577D6] hover:from-[#175bb0] hover:to-[#1e66ba] text-white text-sm sm:text-[15px] font-semibold transition-all duration-200 border border-white/20 shadow-[0_8px_24px_rgba(27,104,194,0.45)] hover:shadow-[0_12px_32px_rgba(27,104,194,0.6)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+            className="group relative inline-flex items-center gap-3 px-7 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-white/[0.08] hover:bg-white/[0.14] active:bg-white/[0.06] backdrop-blur-2xl border border-white/[0.22] hover:border-white/40 text-white text-[14px] sm:text-[15px] font-medium tracking-wide transition-all duration-300 ease-out shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.45),0_12px_36px_rgba(0,0,0,0.45),0_0_24px_rgba(56,189,248,0.18)] hover:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.65),0_16px_44px_rgba(0,0,0,0.55),0_0_36px_rgba(56,189,248,0.32)] hover:scale-[1.025] active:scale-[0.97] cursor-pointer overflow-hidden"
           >
-            <Mail className="h-4 w-4 text-white" />
-            <span>Contact For Hiring Inquiries</span>
+            {/* Subtle glass reflection sheen */}
+            <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/70 to-transparent pointer-events-none" />
+            
+            <Mail className="h-4 w-4 text-[#7DD3FC] group-hover:text-white transition-colors duration-200" />
+            <span className="text-white/95 group-hover:text-white">Contact For Hiring Inquiries</span>
           </button>
         </div>
       </div>
