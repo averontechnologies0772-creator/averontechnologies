@@ -30,9 +30,9 @@ export default function LaunchingSoonPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    company: "",
-    engagementType: "Contract Staffing",
-    requirements: "",
+    phone: "",
+    desiredRole: "",
+    skillsExperience: "",
     website: "",
   });
 
@@ -109,7 +109,7 @@ export default function LaunchingSoonPage() {
       });
       const result = await response.json();
       if (!response.ok || result.success !== true) {
-        setSubmitError(typeof result.error === "string" ? result.error : "Your inquiry could not be sent. Please try again.");
+        setSubmitError(typeof result.error === "string" ? result.error : "Your details could not be sent. Please try again.");
         return;
       }
       setIsSubmitted(true);
@@ -127,9 +127,9 @@ export default function LaunchingSoonPage() {
     setFormData({
       name: "",
       email: "",
-      company: "",
-      engagementType: "Contract Staffing",
-      requirements: "",
+      phone: "",
+      desiredRole: "",
+      skillsExperience: "",
       website: "",
     });
   };
@@ -205,8 +205,8 @@ export default function LaunchingSoonPage() {
           ref={textRef}
           className="text-sm sm:text-[15px] lg:text-base text-[#94A3B8] max-w-xl leading-relaxed sm:leading-relaxed mx-auto px-4"
         >
-          We are preparing our premier technology talent and staffing platform.
-          Connecting enterprises across the United States with exceptional engineering talent.
+          We are preparing a platform to help technology professionals find their next job.
+          Share your details and connect with our team about career opportunities.
         </p>
 
         {/* Button: Exact Capsule Pill with Mail icon and Right Arrow */}
@@ -229,7 +229,7 @@ export default function LaunchingSoonPage() {
               <path d="m2 5 10 8L22 5" fill="#BFD9F1" stroke="#FFFFFF" strokeWidth="1.2" strokeLinejoin="round" />
               <path d="m2 19 7-7m13 7-7-7" stroke="#7CAAD0" strokeWidth="1.2" />
             </svg>
-            <span className="text-white">Contact For Hiring Inquiries</span>
+            <span className="text-white">Find Your Next Job</span>
             <ArrowRight className="h-4 w-4 text-white transition-transform duration-200 group-hover:translate-x-1 flex-shrink-0" />
           </button>
 
@@ -316,7 +316,7 @@ export default function LaunchingSoonPage() {
           <div
             role="dialog"
             aria-modal="true"
-            aria-labelledby="hiring-dialog-title"
+            aria-labelledby="candidate-dialog-title"
             className="hiring-glass-modal relative z-10 w-full max-w-lg max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-[28px] sm:rounded-[32px] p-6 sm:p-8 text-left select-text"
             style={{ WebkitBackdropFilter: "blur(22px) saturate(135%)", backdropFilter: "blur(22px) saturate(135%)" }}
           >
@@ -332,11 +332,11 @@ export default function LaunchingSoonPage() {
                   />
                 </div>
                 <div>
-                  <h3 id="hiring-dialog-title" className="text-lg font-bold text-white tracking-tight">
+                  <h3 id="candidate-dialog-title" className="text-lg font-bold text-white tracking-tight">
                     Averon Technologies
                   </h3>
                   <span className="text-[10px] text-[#7DD3FC] tracking-wider uppercase font-semibold">
-                    Direct Recruitment Desk
+                    Candidate Support
                   </span>
                 </div>
               </div>
@@ -362,10 +362,10 @@ export default function LaunchingSoonPage() {
                     </div>
                     <div>
                       <h4 className="text-sm font-semibold text-white tracking-tight">
-                        Start a Hiring Conversation
+                        Tell Us About Yourself
                       </h4>
                       <p className="text-xs text-[#94A3B8] mt-0.5 leading-snug">
-                        Share your role details and our technical recruiters will coordinate with you.
+                        Share your skills and the role you are looking for. Our team will get in touch about career opportunities.
                       </p>
                     </div>
                   </div>
@@ -375,15 +375,15 @@ export default function LaunchingSoonPage() {
                 <form onSubmit={handleSubmit} aria-busy={isSubmitting}>
                   <fieldset disabled={isSubmitting} className="space-y-3.5">
                   <div hidden aria-hidden="true">
-                    <label htmlFor="hiring-website">Website</label>
-                    <input id="hiring-website" name="website" tabIndex={-1} autoComplete="off" value={formData.website} onChange={(e) => setFormData({ ...formData, website: e.target.value })} />
+                    <label htmlFor="candidate-website">Website</label>
+                    <input id="candidate-website" name="website" tabIndex={-1} autoComplete="off" value={formData.website} onChange={(e) => setFormData({ ...formData, website: e.target.value })} />
                   </div>
                   <div>
-                    <label htmlFor="hiring-name" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
+                    <label htmlFor="candidate-name" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
                       Your Name <span className="text-[#38BDF8]">*</span>
                     </label>
                     <input
-                      id="hiring-name"
+                      id="candidate-name"
                       autoComplete="name"
                       maxLength={100}
                       type="text"
@@ -399,11 +399,11 @@ export default function LaunchingSoonPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label htmlFor="hiring-email" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
-                        Work Email <span className="text-[#38BDF8]">*</span>
+                      <label htmlFor="candidate-email" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
+                        Email <span className="text-[#38BDF8]">*</span>
                       </label>
                       <input
-                        id="hiring-email"
+                        id="candidate-email"
                         autoComplete="email"
                         maxLength={254}
                         type="email"
@@ -412,69 +412,67 @@ export default function LaunchingSoonPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, email: e.target.value })
                         }
-                        placeholder="sarah@enterprise.com"
+                        placeholder="sarah@gmail.com"
                         className="hiring-glass-field"
                       />
                     </div>
 
                     <div>
-                      <label htmlFor="hiring-company" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
-                        Company Name
+                      <label htmlFor="candidate-phone" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
+                        Phone (optional)
                       </label>
                       <input
-                        id="hiring-company"
-                        autoComplete="organization"
-                        maxLength={150}
-                        type="text"
-                        value={formData.company}
+                        id="candidate-phone"
+                        autoComplete="tel"
+                        maxLength={30}
+                        type="tel"
+                        value={formData.phone}
                         onChange={(e) =>
-                          setFormData({ ...formData, company: e.target.value })
+                          setFormData({ ...formData, phone: e.target.value })
                         }
-                        placeholder="Acme Tech"
+                        placeholder="Your phone number"
                         className="hiring-glass-field"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="hiring-engagement" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
-                      Engagement Model
+                    <label htmlFor="candidate-role" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
+                      Preferred Role <span className="text-[#38BDF8]">*</span>
                     </label>
-                    <select
-                      id="hiring-engagement"
-                      value={formData.engagementType}
+                    <input
+                      id="candidate-role"
+                      type="text"
+                      required
+                      maxLength={150}
+                      value={formData.desiredRole}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          engagementType: e.target.value,
+                          desiredRole: e.target.value,
                         })
                       }
+                      placeholder="e.g. Frontend Developer, Data Analyst"
                       className="hiring-glass-field"
-                    >
-                      <option value="Contract Staffing">Contract Staffing (Project-Based)</option>
-                      <option value="Contract-to-Hire">Contract-to-Hire</option>
-                      <option value="Direct Hire / Permanent">Direct Hire / Permanent Placement</option>
-                      <option value="Specialized Technical Advisory">Specialized Technical Advisory</option>
-                    </select>
+                    />
                   </div>
 
                   <div>
-                    <label htmlFor="hiring-requirements" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
-                      Hiring Requirement / Tech Stack <span className="text-[#38BDF8]">*</span>
+                    <label htmlFor="candidate-skills" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
+                      Skills &amp; Experience (optional)
                     </label>
                     <textarea
-                      id="hiring-requirements"
+                      id="candidate-skills"
                       maxLength={5000}
-                      required
                       rows={3}
-                      value={formData.requirements}
+                      value={formData.skillsExperience}
                       onChange={(e) =>
                         setFormData({
                           ...formData,
-                          requirements: e.target.value,
+                          skillsExperience: e.target.value,
                         })
                       }
-                      placeholder="e.g. 2 Senior React / Node engineers with AWS experience, 6-month contract..."
+                      placeholder="e.g. React, JavaScript, 2 years of experience. Freshers are welcome too."
                       className="hiring-glass-field resize-none"
                     />
                   </div>
@@ -497,12 +495,12 @@ export default function LaunchingSoonPage() {
                       {isSubmitting ? (
                         <>
                           <Loader2 className="h-4 w-4 animate-spin text-[#7DD3FC]" />
-                          <span>Submitting Inquiry...</span>
+                          <span>Submitting Details...</span>
                         </>
                       ) : (
                         <>
                           <Mail className="h-4 w-4 text-white fill-white/20 flex-shrink-0" />
-                          <span>Submit Hiring Inquiry</span>
+                          <span>Submit My Details</span>
                           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1 text-white flex-shrink-0" />
                         </>
                       )}
@@ -529,10 +527,10 @@ export default function LaunchingSoonPage() {
                   <CheckCircle2 className="h-8 w-8" />
                 </div>
                 <h3 className="text-2xl font-bold text-white tracking-tight">
-                  Inquiry Sent
+                  Details Sent
                 </h3>
                 <p className="text-sm text-[#94A3B8] max-w-sm mx-auto leading-relaxed">
-                  Thank you, <span className="text-white font-semibold">{formData.name}</span>. Your inquiry has been sent to our recruitment desk. Our team will follow up at{" "}
+                  Thank you, <span className="text-white font-semibold">{formData.name}</span>. Your details have been sent to our candidate support team. We will follow up at{" "}
                   <span className="text-[#38BDF8]">{formData.email}</span>.
                 </p>
                 <div className="pt-4">

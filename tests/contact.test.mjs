@@ -39,8 +39,8 @@ afterEach(() => {
 
 function inquiry(overrides = {}) {
   return {
-    name: "  Jane Doe  ", email: `visitor${++sequence}@example.com`, company: "Example Inc",
-    engagementType: "Contract Staffing", requirements: "Two React engineers for six months.",
+    name: "  Jane Doe  ", email: `visitor${++sequence}@example.com`, phone: "+1 (555) 123-4567",
+    desiredRole: "Frontend Developer", skillsExperience: "React and TypeScript, two years of experience.",
     website: "", ...overrides,
   };
 }
@@ -61,12 +61,24 @@ test("sends all fields to the configured desk, with the visitor as Reply-To only
   assert.equal(messages[0].to, "desk@example.com");
   assert.equal(messages[0].from.address, "website@example.com");
   assert.deepEqual(messages[0].replyTo, { name: "Jane Doe", address: payload.email });
-  assert.ok(messages[0].text.includes(payload.requirements));
-  assert.ok(messages[0].text.includes(payload.company));
+  assert.equal(messages[0].subject, `Candidate details: ${payload.desiredRole}`);
+  assert.ok(messages[0].text.includes(payload.skillsExperience));
+  assert.ok(messages[0].text.includes(payload.phone));
+  assert.ok(messages[0].text.includes(`Email: ${payload.email}`));
+  assert.ok(!/Company:|Engagement model:|Hiring requirement|Work email:/.test(messages[0].text));
   assert.equal(smtpOptions.secure, true);
   assert.equal(smtpOptions.port, 465);
   assert.equal(smtpOptions.tls?.rejectUnauthorized, undefined);
   assert.equal(closed, true);
+});
+
+test("accepts personal email and omitted optional candidate fields without company details", async () => {
+  const response = await POST(request({
+    name: "New Candidate", email: "newcandidate@gmail.com", desiredRole: "Junior Developer",
+  }));
+  assert.equal(response.status, 200);
+  assert.ok(messages[0].text.includes("Phone: Not provided"));
+  assert.ok(messages[0].text.includes("Skills & experience:\nNot provided"));
 });
 
 test("does not report success before SMTP accepts the inquiry", async () => {
@@ -106,8 +118,11 @@ test("missing SMTP credentials fail before any send", async () => {
 test("required fields, malformed emails and header injection are rejected", async () => {
   for (const invalid of [
     { name: "  " }, { email: "invalid" }, { email: "a@example.com\r\nBcc: other@example.com" },
-    { name: "Name\r\nBcc: other@example.com" }, { engagementType: "Unknown" },
-    { requirements: "  " }, { requirements: "x".repeat(5001) }, { company: "x".repeat(151) },
+    { name: "Name\r\nBcc: other@example.com" }, { desiredRole: "  " },
+    { desiredRole: "x".repeat(151) }, { desiredRole: "Developer\r\nBcc: other@example.com" },
+    { skillsExperience: "x".repeat(5001) }, { skillsExperience: 123 },
+    { phone: "x".repeat(31) }, { phone: "not a phone" }, { phone: "123\r\nBcc: other@example.com" },
+    { phone: "+()" }, { phone: 123 },
   ]) {
     assert.equal((await POST(request(inquiry(invalid)))).status, 400);
   }
