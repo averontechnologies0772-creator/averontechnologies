@@ -74,10 +74,10 @@ test("sends all fields to the configured desk, with the visitor as Reply-To only
 
 test("accepts personal email and omitted optional candidate fields without company details", async () => {
   const response = await POST(request({
-    name: "New Candidate", email: "newcandidate@gmail.com", desiredRole: "Junior Developer",
+    name: "New Candidate", email: "newcandidate@gmail.com", phone: "+1 555 123 4567", desiredRole: "Junior Developer",
   }));
   assert.equal(response.status, 200);
-  assert.ok(messages[0].text.includes("Phone: Not provided"));
+  assert.ok(messages[0].text.includes("Phone: +1 555 123 4567"));
   assert.ok(messages[0].text.includes("Skills & experience:\nNot provided"));
 });
 
@@ -122,7 +122,7 @@ test("required fields, malformed emails and header injection are rejected", asyn
     { desiredRole: "x".repeat(151) }, { desiredRole: "Developer\r\nBcc: other@example.com" },
     { skillsExperience: "x".repeat(5001) }, { skillsExperience: 123 },
     { phone: "x".repeat(31) }, { phone: "not a phone" }, { phone: "123\r\nBcc: other@example.com" },
-    { phone: "+()" }, { phone: 123 },
+    { phone: "+()" }, { phone: 123 }, { phone: undefined }, { phone: null }, { phone: "" }, { phone: "   " },
   ]) {
     assert.equal((await POST(request(inquiry(invalid)))).status, 400);
   }

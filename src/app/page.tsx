@@ -419,10 +419,11 @@ export default function LaunchingSoonPage() {
 
                     <div>
                       <label htmlFor="candidate-phone" className="block text-[11px] font-semibold text-white/80 uppercase tracking-wider mb-1">
-                        Phone (optional)
+                        Phone <span className="text-[#38BDF8]">*</span>
                       </label>
                       <input
                         id="candidate-phone"
+                        required
                         autoComplete="tel"
                         maxLength={30}
                         type="tel"

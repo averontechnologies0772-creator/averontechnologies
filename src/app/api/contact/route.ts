@@ -76,9 +76,8 @@ export async function POST(request: Request) {
   if (email.length > 254 || !emailPattern.test(email)) {
     return responseError("Please enter a valid email address.", 400);
   }
-  if ((data.phone !== undefined && typeof data.phone !== "string") ||
-      (phone && (phone.length > 30 || !/^[+\d ().-]+$/.test(phone) || !/\d/.test(phone)))) {
-    return responseError("Please enter a valid phone number (up to 30 characters) or leave it blank.", 400);
+  if (!phone || phone.length > 30 || !/^[+\d ().-]+$/.test(phone) || !/\d/.test(phone)) {
+    return responseError("Please enter a valid phone number (up to 30 characters).", 400);
   }
   if (!desiredRole || desiredRole.length > 150 || /[\r\n\x00-\x1f]/.test(desiredRole)) {
     return responseError("Please enter your preferred role (up to 150 characters).", 400);
@@ -132,7 +131,7 @@ export async function POST(request: Request) {
         "",
         `Name: ${name}`,
         `Email: ${email}`,
-        `Phone: ${phone || "Not provided"}`,
+        `Phone: ${phone}`,
         `Preferred role: ${desiredRole}`,
         "",
         "Skills & experience:",

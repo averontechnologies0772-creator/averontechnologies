@@ -22,7 +22,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Candidate details email
 
-The home page popup collects the candidate's name, email, preferred role, optional
+The home page popup collects the candidate's name, email, preferred role, required
 phone number, and optional skills and experience. It posts to `/api/contact`, which sends a plain-text email to
 `CONTACT_TO` using Nodemailer and the configured SMTP mailbox. The visitor's email
 is set as Reply-To. The form reports success only after SMTP accepts the recipient.
